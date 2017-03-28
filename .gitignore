@@ -1,0 +1,10 @@
+/build
+/vendor
+composer.phar
+composer.lock
+.DS_Store
+Thumbs.db
+/phpunit.xml
+/config.php
+.php_cs.cache
+sami.phar

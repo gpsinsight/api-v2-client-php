@@ -1,0 +1,61 @@
+{
+    "name": "gpsinsight/api-client",
+    "description": "GPS Insight API client library",
+    "license": "Apache 2.0",
+    "authors": [
+        {
+            "name": "Jeremy Lindblom",
+            "email": "jeremeamia@gmail.com",
+            "homepage": "https://github.com/jeremeamia"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.0",
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "^6.0",
+        "guzzlehttp/command": "^1.0",
+        "psr/log": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.7",
+        "doctrine/inflector": "^1.1",
+        "monolog/monolog": "^1.11",
+        "squizlabs/php_codesniffer": "^2.3",
+        "psr/cache": "^1.0",
+        "cache/array-adapter": "^0.4.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "GpsInsight\\Api\\V2\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "GpsInsight\\Api\\Test\\V2\\": "tests/",
+            "GpsInsight\\Api\\Dev\\V2\\": "dev/src/"
+        }
+    },
+    "suggest": {
+        "psr/cache": "For caching session tokens in PSR-6 compliant cache stores."
+    },
+    "scripts": {
+        "build-services": "php dev/bin/build-services.php",
+        "docs": [
+            "@docs-clean",
+            "@docs-build",
+            "@docs-view"
+        ],
+        "docs-build": "php sami.phar update sami.php -v",
+        "docs-clean": [
+            "rm -rf build/apidocs/",
+            "rm -rf build/cache/"
+        ],
+        "docs-init": "curl -O http://get.sensiolabs.org/sami.phar",
+        "docs-view": "open build/apidocs/GpsInsight/Api/V2.html",
+        "style-fix": "phpcbf -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests dev",
+        "style-lint": "phpcs -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests dev",
+        "test": "phpunit --testsuite=unit",
+        "test-coverage": "open build/coverage/index.html",
+        "test-smoke": "phpunit --testsuite=smoke"
+    }
+}

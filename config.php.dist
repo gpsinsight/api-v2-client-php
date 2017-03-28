@@ -1,0 +1,8 @@
+<?php
+
+return [
+    'credentials' => [
+        'username' => 'YOUR_GPS_INSIGHT_USERNAME',
+        'password' => 'YOUR_GPS_INSIGHT_PASSWORD',
+    ],
+];
