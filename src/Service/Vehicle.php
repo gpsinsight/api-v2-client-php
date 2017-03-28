@@ -588,13 +588,13 @@ class Vehicle extends ServiceClient
     }
 
     /**
-     * Defines a new waypoint history element @request int|string $timestamp the time at which to place the new entry
-     * (optional).
+     * Defines a new waypoint history element.
      *
      * Valid parameters:
      *
      * - vehicle: Vehicle id, vin, serial_number, name or partial name (first to match)
      * - odometer: in miles
+     * - timestamp: the time at which to place the new entry (optional)
      *
      * @param array $params Parameters for vehicle/setodometerwaypoint API.
      * @return Result The result of the vehicle/setodometerwaypoint API.
@@ -686,7 +686,7 @@ class Vehicle extends ServiceClient
     }
 
     /**
-     * Update a vehicle's properties. @request int|string $timestamp (optional) timestamp to apply to odometer waypoint.
+     * Update a vehicle's properties.
      *
      * Valid parameters:
      *
@@ -703,6 +703,7 @@ class Vehicle extends ServiceClient
      * - model: (optional)
      * - model_year: (optional)
      * - odometer: (optional) In miles
+     * - timestamp: (optional) timestamp to apply to odometer waypoint
      * - runtime: (optional) In hours
      * - ref_id: External reference ID for the vehicle (does not display in interface)
      * - engine_size: (optional) In liters
