@@ -162,7 +162,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Security
 
-If you discover any security related issues, please email safeguard@gpsinsight.com directly instead of using the
+If you discover any security related issues, please email websecurity@gpsinsight.com directly instead of using the
 issue tracker. This allows us to take appropriate actions to mitigate the issues as quickly as possible.
 
 ## Credits
