@@ -38,6 +38,9 @@
     "suggest": {
         "psr/cache": "For caching session tokens in PSR-6 compliant cache stores."
     },
+    "config": {
+        "platform": {"php": "5.6"}
+    },
     "scripts": {
         "build-services": "php dev/bin/build-services.php",
         "docs": [
