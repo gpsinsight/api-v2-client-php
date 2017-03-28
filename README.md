@@ -176,7 +176,7 @@ issue tracker. This allows us to take appropriate actions to mitigate the issues
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/gpsinsight/api-v2-client.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/gpsinsight/api-client.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-travis]: https://img.shields.io/travis/gpsinsight/gpsinsight-api-v2-php-client/master.svg?style=flat-square
 
