@@ -23,7 +23,7 @@ This package is hosted on [Packagist][link-packagist] and is installable via [Co
 
 ### Requirements
 
-- PHP version 5.5 or greater
+- PHP version 5.5 or greater (5.6+ recommended)
 - Composer (for installation)
 - [Guzzle][guzzle-docs] is installed automatically as a dependency and requires one of the following to
   make HTTP requests:
@@ -143,10 +143,12 @@ $gpsInsight = new GpsInsight([
     'version' => '2.10.1',
     'token_cache' => new TokenCallbackCache(
         function ($key) {
-            return isset($_SESSION[$key]) ? $_SESSION[$key] : null;
+            return isset($_SESSION['gpsinsight_tokens'][$key])
+                ? $_SESSION['gpsinsight_tokens'][$key]
+                : null;
         },
         function ($key, $token) {
-            $_SESSION[$key] = $token;
+            $_SESSION['gpsinsight_tokens'][$key] = $token;
         }
     ),
 ]);
