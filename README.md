@@ -180,10 +180,10 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 [ico-version]: https://img.shields.io/packagist/v/gpsinsight/api-client.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/GPSInsight/gpsinsight-api-v2-client-php/master.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/gpsinsight/api-v2-client-php/master.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/gpsinsight/api-client
-[link-travis]: https://travis-ci.org/gpsinsight/gpsinsight-api-v2-php-client
+[link-travis]: https://travis-ci.org/gpsinsight/api-v2-php-client
 [link-composer]: https://getcomposer.org/
 
 [gps-insight]: http://www.gpsinsight.com/
