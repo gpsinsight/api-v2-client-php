@@ -621,6 +621,21 @@ class Vehicle extends ServiceClient
     }
 
     /**
+     * Search for vehicles that sound like your specified vehicle.
+     *
+     * Valid parameters:
+     *
+     * - vehicle: a name or partial name that sounds like one of your vehicles
+     *
+     * @param array $params Parameters for vehicle/soundslike API.
+     * @return Result The result of the vehicle/soundslike API.
+     */
+    public function soundsLike(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'soundslike', $params);
+    }
+
+    /**
      * Return State Mileage report information for a vehicle.
      *
      * Valid parameters:
