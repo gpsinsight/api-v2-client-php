@@ -51,7 +51,7 @@ class User extends ServiceClient
      * Valid parameters:
      *
      * - username: Global-unique username for the new user
-     * - password: 6-20 character combination
+     * - password: 6-60 character combination
      * - address: (optional)
      * - city: (optional)
      * - country: (optional)
@@ -99,6 +99,37 @@ class User extends ServiceClient
     public function getPreference(array $params = [])
     {
         return $this->client->call(self::SERVICE, 'getpreference', $params);
+    }
+
+    /**
+     * Set the value for the specified preference.
+     *
+     * Valid parameters:
+     *
+     * - preference: The preference to be set
+     * - value: The value to set the preference to
+     * - accountLevel: TRUE sets the preference for the account; FALSE sets the preference for the user
+     *
+     * @param array $params Parameters for user/setpreference API.
+     * @return Result The result of the user/setpreference API.
+     */
+    public function setPreference(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'setpreference', $params);
+    }
+
+    /**
+     * Returns the permissions granted to the current user.
+     *
+     * Valid parameters:
+     *
+     *
+     * @param array $params Parameters for user/getpermissions API.
+     * @return Result The result of the user/getpermissions API.
+     */
+    public function getPermissions(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'getpermissions', $params);
     }
 
     /**
@@ -211,7 +242,7 @@ class User extends ServiceClient
      * Valid parameters:
      *
      * - groups: a comma-separated list of vehicle groups
-     * - user: the username to assign
+     * - username: the username to assign
      *
      * @param array $params Parameters for user/setvehiclegroups API.
      * @return Result The result of the user/setvehiclegroups API.
@@ -287,5 +318,21 @@ class User extends ServiceClient
     public function timezone(array $params = [])
     {
         return $this->client->call(self::SERVICE, 'timezone', $params);
+    }
+
+    /**
+     * Returns the menu access permissions for a given user. Returns permissions for all categories by default, pass in
+     * category like 'reports' for specific permissions.
+     *
+     * Valid parameters:
+     *
+     * - category
+     *
+     * @param array $params Parameters for user/getmenuaccesspermissions API.
+     * @return Result The result of the user/getmenuaccesspermissions API.
+     */
+    public function getMenuAccessPermissions(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'getmenuaccesspermissions', $params);
     }
 }

@@ -45,7 +45,7 @@ class UserAuth extends ServiceClient
     }
 
     /**
-     * generates password reset code email or sms.
+     * Generates password reset code email or sms.
      *
      * Valid parameters:
      *
@@ -61,7 +61,7 @@ class UserAuth extends ServiceClient
     }
 
     /**
-     * validates password reset confirmation code.
+     * Validates password reset confirmation code.
      *
      * Valid parameters:
      *
@@ -77,7 +77,7 @@ class UserAuth extends ServiceClient
     }
 
     /**
-     * resets password.
+     * Final step in password reset process. Resets new password.
      *
      * Valid parameters:
      *
@@ -90,5 +90,20 @@ class UserAuth extends ServiceClient
     public function resetPassword(array $params = [])
     {
         return $this->client->call(self::SERVICE, 'resetpassword', $params);
+    }
+
+    /**
+     * Returns account-specific password rules explanation and a validation RegEx for client-side validation needs.
+     *
+     * Valid parameters:
+     *
+     * - confirmation: confirmation code
+     *
+     * @param array $params Parameters for userauth/passwordrules API.
+     * @return Result The result of the userauth/passwordrules API.
+     */
+    public function passwordRules(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'passwordrules', $params);
     }
 }

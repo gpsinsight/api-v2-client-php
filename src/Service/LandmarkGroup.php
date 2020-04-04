@@ -44,22 +44,6 @@ class LandmarkGroup extends ServiceClient
     }
 
     /**
-     * Add user permission to a landmark group.
-     *
-     * Valid parameters:
-     *
-     * - group: the landmark group name
-     * - username: the username name to add
-     *
-     * @param array $params Parameters for landmarkgroup/adduser API.
-     * @return Result The result of the landmarkgroup/adduser API.
-     */
-    public function addUser(array $params = [])
-    {
-        return $this->client->call(self::SERVICE, 'adduser', $params);
-    }
-
-    /**
      * List all landmarks.
      *
      * Valid parameters:
@@ -93,6 +77,8 @@ class LandmarkGroup extends ServiceClient
      *
      * Valid parameters:
      *
+     * - page: Number of page (optional)
+     * - page_size: Number of landmark groups on one page (optional)
      * - include_members: (optional - default: 0) Include landmarks for each group
      *
      * @param array $params Parameters for landmarkgroup/list API.
@@ -132,22 +118,6 @@ class LandmarkGroup extends ServiceClient
     public function removeLandmark(array $params = [])
     {
         return $this->client->call(self::SERVICE, 'removelandmark', $params);
-    }
-
-    /**
-     * Remove user permission from a landmark group.
-     *
-     * Valid parameters:
-     *
-     * - group: the landmark group name
-     * - landmark: the landmark name to remove
-     *
-     * @param array $params Parameters for landmarkgroup/removeuser API.
-     * @return Result The result of the landmarkgroup/removeuser API.
-     */
-    public function removeUser(array $params = [])
-    {
-        return $this->client->call(self::SERVICE, 'removeuser', $params);
     }
 
     /**

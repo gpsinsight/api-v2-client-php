@@ -145,6 +145,21 @@ class Driver extends ServiceClient
     }
 
     /**
+     * Return current and overdue service reminders for a particular vehicle partial first names).
+     *
+     * Valid parameters:
+     *
+     * - driver: Driver identifier (searches in order refid, id, last, first, first last, partial last,
+     *
+     * @param array $params Parameters for driver/servicereminder API.
+     * @return Result The result of the driver/servicereminder API.
+     */
+    public function serviceReminder(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'servicereminder', $params);
+    }
+
+    /**
      * Un-assign a driver from a vehicle. partial first names).
      *
      * Valid parameters:
@@ -182,5 +197,35 @@ class Driver extends ServiceClient
     public function update(array $params = [])
     {
         return $this->client->call(self::SERVICE, 'update', $params);
+    }
+
+    /**
+     * Return all drivers associated to the user making the request. Returned drivers will have the vehicle/location
+     * information of the vehicle currently assigned, if any.
+     *
+     * Valid parameters:
+     *
+     *
+     * @param array $params Parameters for driver/locations API.
+     * @return Result The result of the driver/locations API.
+     */
+    public function locations(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'locations', $params);
+    }
+
+    /**
+     * Get the current input status for the driver group.
+     *
+     * Valid parameters:
+     *
+     * - driver_group: the driver group name / id
+     *
+     * @param array $params Parameters for driver/inputs API.
+     * @return Result The result of the driver/inputs API.
+     */
+    public function inputs(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'inputs', $params);
     }
 }

@@ -13,22 +13,6 @@ class VehicleGroup extends ServiceClient
     const SERVICE = 'vehiclegroup';
 
     /**
-     * Create a new vehicle group.
-     *
-     * Valid parameters:
-     *
-     * - vehicle_group: The new vehicle group's name
-     * - vehicles: Vehicles to add to this group (comma-separated, optional)
-     *
-     * @param array $params Parameters for vehiclegroup/create API.
-     * @return Result The result of the vehiclegroup/create API.
-     */
-    public function create(array $params = [])
-    {
-        return $this->client->call(self::SERVICE, 'create', $params);
-    }
-
-    /**
      * Add user permission to a vehicle group.
      *
      * Valid parameters:
@@ -81,6 +65,22 @@ class VehicleGroup extends ServiceClient
     }
 
     /**
+     * Create a new vehicle group.
+     *
+     * Valid parameters:
+     *
+     * - vehicle_group: The new vehicle group's name
+     * - vehicles: Vehicles to add to this group (comma-separated, optional)
+     *
+     * @param array $params Parameters for vehiclegroup/create API.
+     * @return Result The result of the vehiclegroup/create API.
+     */
+    public function create(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'create', $params);
+    }
+
+    /**
      * Delete vehicle group.
      *
      * Valid parameters:
@@ -96,15 +96,13 @@ class VehicleGroup extends ServiceClient
     }
 
     /**
-     * Return Drive Time Summary report information for a vehicle group (optional).
+     * Return Drive Time Summary report information for a vehicle group.
      *
      * Valid parameters:
      *
      * - vehicle_group: the vehicle group name or id
-     * - start: Start date including hours and minutes if desired (optional - defaults to today)
-     * - end: End date including hours and minutes if desired (optional - defaults to end of today)
-     * - each_day: Whether to apply the start/end time range to each day separately (optional)
-     * - overlap: Whether to include trips that overlap the start/end date (1) or not (0 - default)
+     * - start: Start date (optional - defaults to today)
+     * - end: End date (optional - defaults to end of today)
      * - include_pto: Whether to include PTO in the calculations (1) or not (0 - default) (optional)
      *
      * @param array $params Parameters for vehiclegroup/drivetimesummary API.
@@ -146,6 +144,21 @@ class VehicleGroup extends ServiceClient
     public function getAttributes(array $params = [])
     {
         return $this->client->call(self::SERVICE, 'getattributes', $params);
+    }
+
+    /**
+     * Get the current input status for the vehicle group.
+     *
+     * Valid parameters:
+     *
+     * - vehicle_group: the vehicle group name
+     *
+     * @param array $params Parameters for vehiclegroup/inputs API.
+     * @return Result The result of the vehiclegroup/inputs API.
+     */
+    public function inputs(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'inputs', $params);
     }
 
     /**
@@ -202,6 +215,22 @@ class VehicleGroup extends ServiceClient
     public function landmarkIdle(array $params = [])
     {
         return $this->client->call(self::SERVICE, 'landmarkidle', $params);
+    }
+
+    /**
+     * Lifetime statistics for a vehicle group including run days, run time, stop time, idle time, miles driver, max
+     * speed, and average speed.
+     *
+     * Valid parameters:
+     *
+     * - vehicle_group: the vehicle group name or id
+     *
+     * @param array $params Parameters for vehiclegroup/lifetimeutilization API.
+     * @return Result The result of the vehiclegroup/lifetimeutilization API.
+     */
+    public function lifetimeUtilization(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'lifetimeutilization', $params);
     }
 
     /**
@@ -288,7 +317,6 @@ class VehicleGroup extends ServiceClient
      *
      * - vehicle_group: vehicle group name, group_id, or partial group name
      * - last_exec_time: return only new vehicle data since last call (MST, optional)
-     * - historical_time: set a time at which to gather vehicle locations (optional)
      *
      * @param array $params Parameters for vehiclegroup/location API.
      * @return Result The result of the vehiclegroup/location API.
@@ -303,7 +331,7 @@ class VehicleGroup extends ServiceClient
      *
      * Valid parameters:
      *
-     * - groupId: the vehicle group id
+     * - group: the vehicle group id
      * - orderBy: (optional)
      *
      * @param array $params Parameters for vehiclegroup/maintenance API.
@@ -334,6 +362,23 @@ class VehicleGroup extends ServiceClient
     }
 
     /**
+     * Return Posted Speed violation ranges for a vehicle.
+     *
+     * Valid parameters:
+     *
+     * - vehicle_group: the vehicle group name or id
+     * - start: Start date including hours and minutes if desired (optional - defaults to today)
+     * - end: End date including hours and minutes if desired (optional - defaults to end of today)
+     *
+     * @param array $params Parameters for vehiclegroup/postedspeedrange API.
+     * @return Result The result of the vehiclegroup/postedspeedrange API.
+     */
+    public function postedSpeedRange(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'postedspeedrange', $params);
+    }
+
+    /**
      * List a single vehicle group.
      *
      * Valid parameters:
@@ -349,7 +394,7 @@ class VehicleGroup extends ServiceClient
     }
 
     /**
-     * Remove a vehicle from a vehicle group.
+     * Remove a vehicle or vehicles from a vehicle group.
      *
      * Valid parameters:
      *
@@ -367,7 +412,7 @@ class VehicleGroup extends ServiceClient
     }
 
     /**
-     * Remove user permission from a vehicle group.
+     * Remove user access to a vehicle group.
      *
      * Valid parameters:
      *
@@ -402,6 +447,22 @@ class VehicleGroup extends ServiceClient
     }
 
     /**
+     * Get scorecard for a vehicle group for a specified period of time.
+     *
+     * Valid parameters:
+     *
+     * - vehicle_group: vehicle group name, group_id, or partial group name
+     * - timeframe: Possible values are `week`, `month`, or `all`.
+     *
+     * @param array $params Parameters for vehiclegroup/scorecard API.
+     * @return Result The result of the vehiclegroup/scorecard API.
+     */
+    public function scorecard(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'scorecard', $params);
+    }
+
+    /**
      * Return Service History report information for a vehicle group.
      *
      * Valid parameters:
@@ -419,20 +480,18 @@ class VehicleGroup extends ServiceClient
     }
 
     /**
-     * Specify the full list of vehicles for this group. All vehicles will be reset.
+     * Return current and overdue service reminders for a vehicle group.
      *
      * Valid parameters:
      *
-     * - vehicle_group: the vehicle group name
-     * - vehicles: a comma-separated set of vehicles or ids
-     * - count: as a check, the number of vehicles to add (required for vehicles > 1)
+     * - vehicle_group: the vehicle group name or id
      *
-     * @param array $params Parameters for vehiclegroup/setvehicles API.
-     * @return Result The result of the vehiclegroup/setvehicles API.
+     * @param array $params Parameters for vehiclegroup/servicereminder API.
+     * @return Result The result of the vehiclegroup/servicereminder API.
      */
-    public function setVehicles(array $params = [])
+    public function serviceReminder(array $params = [])
     {
-        return $this->client->call(self::SERVICE, 'setvehicles', $params);
+        return $this->client->call(self::SERVICE, 'servicereminder', $params);
     }
 
     /**
@@ -449,6 +508,23 @@ class VehicleGroup extends ServiceClient
     public function setUsers(array $params = [])
     {
         return $this->client->call(self::SERVICE, 'setusers', $params);
+    }
+
+    /**
+     * Specify the full list of vehicles for this group. All vehicles will be reset.
+     *
+     * Valid parameters:
+     *
+     * - vehicle_group: the vehicle group name
+     * - vehicles: a comma-separated set of vehicles or ids
+     * - count: as a check, the number of vehicles to add (required for vehicles > 1)
+     *
+     * @param array $params Parameters for vehiclegroup/setvehicles API.
+     * @return Result The result of the vehiclegroup/setvehicles API.
+     */
+    public function setVehicles(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'setvehicles', $params);
     }
 
     /**
@@ -482,5 +558,22 @@ class VehicleGroup extends ServiceClient
     public function update(array $params = [])
     {
         return $this->client->call(self::SERVICE, 'update', $params);
+    }
+
+    /**
+     * Returns the Fuel Card transactions for a group of vehicles and date range.
+     *
+     * Valid parameters:
+     *
+     * - vehicle_group: the vehicle group name or id
+     * - start_date: Date - may include hours and minutes (required) start_date
+     * - end_date: Date - may include hours and minutes (required) end_date
+     *
+     * @param array $params Parameters for vehiclegroup/fuelcardtransactions API.
+     * @return Result The result of the vehiclegroup/fuelcardtransactions API.
+     */
+    public function fuelCardTransactions(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'fuelcardtransactions', $params);
     }
 }

@@ -151,16 +151,14 @@ class HierarchyNode extends ServiceClient
     }
 
     /**
-     * Return Drive Time Summary report information for a hierarchy node (optional) (optional).
+     * Return Drive Time Summary report information for a hierarchy node.
      *
      * Valid parameters:
      *
      * - node: Label or ID of the node
      * - tree: Label or ID of the tree (optional)
-     * - start: Start date including hours and minutes if desired (optional - defaults to today)
-     * - end: End date including hours and minutes if desired (optional - defaults to end of today)
-     * - each_day: Whether to apply the start/end time range to each day separately (1) or not (0 - default)
-     * - overlap: Whether to include trips that overlap the start/end date (1) or not (0 - default)
+     * - start: Start date (optional - defaults to today)
+     * - end: End date (optional - defaults to end of today)
      * - include_pto: Whether to include PTO in the calculations (1) or not (0 - default) (optional)
      *
      * @param array $params Parameters for hierarchynode/drivetimesummary API.
@@ -213,6 +211,23 @@ class HierarchyNode extends ServiceClient
     }
 
     /**
+     * Lifetime utilization for all vehicles under a particular tree node, including run days, run time, stop time,
+     * idle time, miles driver, max speed, and average speed.
+     *
+     * Valid parameters:
+     *
+     * - node: Label or ID of the node
+     * - tree: Label or ID of the tree (optional)
+     *
+     * @param array $params Parameters for hierarchynode/lifetimeutilization API.
+     * @return Result The result of the hierarchynode/lifetimeutilization API.
+     */
+    public function lifetimeUtilization(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'lifetimeutilization', $params);
+    }
+
+    /**
      * List all child nodes and associated members under a node in hierarchical or flat format.
      *
      * Valid parameters:
@@ -253,7 +268,7 @@ class HierarchyNode extends ServiceClient
      *
      * Valid parameters:
      *
-     * - last_exec: return only new vehicle data since last call (MST)
+     * - last_exec_time: return only new vehicle data since last call (MST)
      * - node: Label or ID of the node
      * - tree: Label or ID of the tree (optional)
      *
@@ -283,6 +298,24 @@ class HierarchyNode extends ServiceClient
     public function postedSpeed(array $params = [])
     {
         return $this->client->call(self::SERVICE, 'postedspeed', $params);
+    }
+
+    /**
+     * Return Posted Speed violation ranges for a vehicle.
+     *
+     * Valid parameters:
+     *
+     * - node: Label or ID of the node
+     * - tree: Label or ID of the tree (optional)
+     * - start: Start date including hours and minutes if desired (optional - defaults to today)
+     * - end: End date including hours and minutes if desired (optional - defaults to end of today)
+     *
+     * @param array $params Parameters for hierarchynode/postedspeedrange API.
+     * @return Result The result of the hierarchynode/postedspeedrange API.
+     */
+    public function postedSpeedRange(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'postedspeedrange', $params);
     }
 
     /**
@@ -434,5 +467,23 @@ class HierarchyNode extends ServiceClient
     public function vehicleLocations(array $params = [])
     {
         return $this->client->call(self::SERVICE, 'vehiclelocations', $params);
+    }
+
+    /**
+     * Returns the Fuel Card transactions for a Hierarchy Group within a date range.
+     *
+     * Valid parameters:
+     *
+     * - node: Label or ID of the node
+     * - tree: Label or ID of the tree (optional)
+     * - start: Date - may include hours and minutes (required) start_date
+     * - end: Date - may include hours and minutes (required) end_date
+     *
+     * @param array $params Parameters for hierarchynode/fuelcardtransactions API.
+     * @return Result The result of the hierarchynode/fuelcardtransactions API.
+     */
+    public function fuelCardTransactions(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'fuelcardtransactions', $params);
     }
 }

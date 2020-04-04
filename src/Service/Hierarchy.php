@@ -78,6 +78,36 @@ class Hierarchy extends ServiceClient
     }
 
     /**
+     * Get the current input status for the vehicle hierarchy.
+     *
+     * Valid parameters:
+     *
+     *
+     * @param array $params Parameters for hierarchy/inputs API.
+     * @return Result The result of the hierarchy/inputs API.
+     */
+    public function inputs(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'inputs', $params);
+    }
+
+    /**
+     * Lifetime utilization for all vehicles under a particular tree, including run days, run time, stop time, idle
+     * time, miles driver, max speed, and average speed.
+     *
+     * Valid parameters:
+     *
+     * - tree: Label or ID of the tree (optional)
+     *
+     * @param array $params Parameters for hierarchy/lifetimeutilization API.
+     * @return Result The result of the hierarchy/lifetimeutilization API.
+     */
+    public function lifetimeUtilization(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'lifetimeutilization', $params);
+    }
+
+    /**
      * List all hierarchy trees accesible to this user.
      *
      * Valid parameters:
@@ -171,6 +201,20 @@ class Hierarchy extends ServiceClient
     public function removeVehicle(array $params = [])
     {
         return $this->client->call(self::SERVICE, 'removevehicle', $params);
+    }
+
+    /**
+     * .
+     *
+     * Valid parameters:
+     *
+     *
+     * @param array $params Parameters for hierarchy/servicereminder API.
+     * @return Result The result of the hierarchy/servicereminder API.
+     */
+    public function serviceReminder(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'servicereminder', $params);
     }
 
     /**

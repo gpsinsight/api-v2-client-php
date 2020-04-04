@@ -68,14 +68,11 @@ class Vehicle extends ServiceClient
     }
 
     /**
-     * Get Attributes that apply to this vehicle attributes.
+     * Get Attributes that apply to this vehicle.
      *
      * Valid parameters:
      *
      * - vehicle: vehicle vin, serial_number, name or partial name (first to match)
-     * - start: (optional) Start of date range to search
-     * - end: (optional) End of date range to search
-     * - type: (optional) 0=permanent attributes, 1=trip attributes, 2=stop attributes, 3=stop and trip
      *
      * @param array $params Parameters for vehicle/attributes API.
      * @return Result The result of the vehicle/attributes API.
@@ -104,23 +101,38 @@ class Vehicle extends ServiceClient
     }
 
     /**
-     * Register a vehicle to a device.
+     * Returns the CameraID associated to a vehicle.
+     *
+     * Valid parameters:
+     *
+     * - vehicle: Vehicle id, vin, serial number, name or partial name (first to match) of current vehicle
+     *
+     * @param array $params Parameters for vehicle/cameraid API.
+     * @return Result The result of the vehicle/cameraid API.
+     */
+    public function cameraId(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'cameraid', $params);
+    }
+
+    /**
+     * Register a vehicle to a device. L=Liquefied Natural Gas, P=Propane.
      *
      * Valid parameters:
      *
      * - serial_number
      * - label: Description of the vehicle
      * - vin
+     * - odometer: In miles
      * - color: (optional)
      * - country: (optional)
      * - fuel_capacity: (optional) In gallons
-     * - fuel_type: (optional) U=Unleaded, D=Diesel, N=N/A
+     * - fuel_type: (optional) U=Unleaded, D=Diesel, N=N/A, E=Electric, C=Compressed Natural Gas,
      * - license_number: (optional)
      * - license_state: (optional)
      * - make: (optional)
      * - model: (optional)
      * - model_year: (optional)
-     * - odometer: (optional) In miles
      * - run_time: (optional) In hours
      * - engine_size: (optional) In liters
      * - idle_gph: (optional) Idle gallons per hour used
@@ -184,15 +196,13 @@ class Vehicle extends ServiceClient
     }
 
     /**
-     * Return Drive Time Summary report information for a vehicle (optional).
+     * Return Drive Time Summary report information for a vehicle.
      *
      * Valid parameters:
      *
      * - vehicle: vehicle vin, serial_number, name or partial name (first to match)
-     * - start: Start date including hours and minutes if desired (optional - defaults to today)
-     * - end: End date including hours and minutes if desired (optional - defaults to end of today)
-     * - each_day: Whether to apply the start/end time range to each day separately (optional)
-     * - overlap: Whether to include trips that overlap the start/end date (1) or not (0 - default)
+     * - start: Start date (optional - defaults to today)
+     * - end: End date (optional - defaults to end of today)
      * - include_pto: Whether to include PTO in the calculations (1) or not (0 - default) (optional)
      *
      * @param array $params Parameters for vehicle/drivetimesummary API.
@@ -221,6 +231,20 @@ class Vehicle extends ServiceClient
     }
 
     /**
+     * Get vehicle attribute keys.
+     *
+     * Valid parameters:
+     *
+     *
+     * @param array $params Parameters for vehicle/getattributekeys API.
+     * @return Result The result of the vehicle/getattributekeys API.
+     */
+    public function getAttributeKeys(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'getattributekeys', $params);
+    }
+
+    /**
      * Get attributes for a vehicle.
      *
      * Valid parameters:
@@ -234,6 +258,23 @@ class Vehicle extends ServiceClient
     public function getAttributes(array $params = [])
     {
         return $this->client->call(self::SERVICE, 'getattributes', $params);
+    }
+
+    /**
+     * Get attributes for a vehicle.
+     *
+     * Valid parameters:
+     *
+     * - vehicle: vehicle vin, serial_number, name or partial name (first to match)
+     * - key: (optional) attribute key
+     * - flatten: (optional) returns a single record for each vehicle with a comma delimited value ("value": "A,B,C")
+     *
+     * @param array $params Parameters for vehicle/getattributesbykey API.
+     * @return Result The result of the vehicle/getattributesbykey API.
+     */
+    public function getAttributesByKey(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'getattributesbykey', $params);
     }
 
     /**
@@ -282,6 +323,21 @@ class Vehicle extends ServiceClient
     }
 
     /**
+     * Get the current input state for the specified vehicle.
+     *
+     * Valid parameters:
+     *
+     * - vehicle: vehicle vin, serial_number, name or partial name (first to match)
+     *
+     * @param array $params Parameters for vehicle/getinputsstate API.
+     * @return Result The result of the vehicle/getinputsstate API.
+     */
+    public function getInputsState(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'getinputsstate', $params);
+    }
+
+    /**
      * Test whether a vehicle has a Garmin device attached.
      *
      * Valid parameters:
@@ -297,13 +353,18 @@ class Vehicle extends ServiceClient
     }
 
     /**
-     * Get historical information on vehicle activity.
+     * Get historical information on vehicle activity. Using 'date' or 'start' and 'end' without time precision will
+     * retrieve full days of data. Use time precision with start and end to request partial days, or multiple days (7
+     * days max).
      *
      * Valid parameters:
      *
      * - vehicle: vehicle vin, serial_number, name or partial name (first to match)
-     * - date: a single day at a time
-     * - location_detail: show geocoded street address and landmark, if found
+     * - date: a single day at a time (optional)
+     * - start: start date/time (optional)
+     * - end: end date/time (optional)
+     * - location_detail: show geocoded street address and landmark, if found (optional, default off)
+     * - inputs: show input state and definition (optional, default off)
      *
      * @param array $params Parameters for vehicle/history API.
      * @return Result The result of the vehicle/history API.
@@ -353,12 +414,50 @@ class Vehicle extends ServiceClient
     }
 
     /**
-     * List all vehicles or one specific vehicle accessible by this user.
+     * Renders and returns the URL to a Google Tile Map for the supplied vehicle's last MOVEMENT trip.
+     *
+     * Valid parameters:
+     *
+     * - vehicle: , vin, serial_number, name or partial name (first to match)
+     * - width: desired width of the map to render (default: 300px)
+     * - height: desired height of the map to rendder (default: 300px)
+     *
+     * @param array $params Parameters for vehicle/lasttripmap API.
+     * @return Result The result of the vehicle/lasttripmap API.
+     */
+    public function lastTripMap(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'lasttripmap', $params);
+    }
+
+    /**
+     * Lifetime statistics for a vehicle, including run days, run time, stop time, idle time, miles driver, max speed,
+     * and average speed.
      *
      * Valid parameters:
      *
      * - vehicle: vehicle vin, serial_number, name or partial name (optional, first to match)
-     * - detail: specify individual columns to return (optional)
+     *
+     * @param array $params Parameters for vehicle/lifetimeutilization API.
+     * @return Result The result of the vehicle/lifetimeutilization API.
+     */
+    public function lifetimeUtilization(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'lifetimeutilization', $params);
+    }
+
+    /**
+     * List all vehicles or one specific vehicle accessible by this user
+     * ('id','label','source','report_interval','idle_gph','fuel_type','fuel_capacity',
+     * 'country','license_state','license_number','color','make','model','model_year',
+     * 'odometer','phone_number','ref_id','email_address','alert_email','alert_sms',
+     * 'alert_garmin','alert_pref','first_dt') or `1` for all (optional).
+     *
+     * Valid parameters:
+     *
+     * - vehicle: vehicle vin, serial_number, name or partial name (optional, first to match)
+     * - detail: specify individual columns to return from
+     * - filter_group
      *
      * @param array $params Parameters for vehicle/list API.
      * @return Result The result of the vehicle/list API.
@@ -384,7 +483,7 @@ class Vehicle extends ServiceClient
     }
 
     /**
-     * Location and information on vehicle.
+     * Location and information for a vehicle.
      *
      * Valid parameters:
      *
@@ -417,7 +516,7 @@ class Vehicle extends ServiceClient
     }
 
     /**
-     * Return Posted Speed report information for a vehicle to 0).
+     * Return Posted Speed report information for a vehicle.
      *
      * Valid parameters:
      *
@@ -425,7 +524,7 @@ class Vehicle extends ServiceClient
      * - start: Start date including hours and minutes if desired (optional - defaults to today)
      * - end: End date including hours and minutes if desired (optional - defaults to end of today)
      * - exceeds_by: MPH over the speed limit before reported (optional - defaults to 10)
-     * - sustained_threshold: Duration threshold in minutes for a true speed violation (optional - defaults
+     * - sustained_threshold: Duration threshold in minutes for a true speed violation (optional - default 0)
      *
      * @param array $params Parameters for vehicle/postedspeed API.
      * @return Result The result of the vehicle/postedspeed API.
@@ -433,6 +532,23 @@ class Vehicle extends ServiceClient
     public function postedSpeed(array $params = [])
     {
         return $this->client->call(self::SERVICE, 'postedspeed', $params);
+    }
+
+    /**
+     * Return Posted Speed violation ranges for a vehicle.
+     *
+     * Valid parameters:
+     *
+     * - vehicle: vehicle vin, serial_number, name or partial name (first to match)
+     * - start: Start date including hours and minutes if desired (optional - defaults to today)
+     * - end: End date including hours and minutes if desired (optional - defaults to end of today)
+     *
+     * @param array $params Parameters for vehicle/postedspeedrange API.
+     * @return Result The result of the vehicle/postedspeedrange API.
+     */
+    public function postedSpeedRange(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'postedspeedrange', $params);
     }
 
     /**
@@ -466,12 +582,12 @@ class Vehicle extends ServiceClient
     }
 
     /**
-     * Remove a vehicle attribute Key not (0-default).
+     * Remove a vehicle attribute Key.
      *
      * Valid parameters:
      *
      * - key: Attribute key to be deleted
-     * - delete_if_empty: (optional) Delete the attribute from lists if no associated entities remain (1) or
+     * - delete_if_empty: Delete the attribute from lists if no associated entities remain (optional)
      *
      * @param array $params Parameters for vehicle/removeattributekey API.
      * @return Result The result of the vehicle/removeattributekey API.
@@ -533,6 +649,22 @@ class Vehicle extends ServiceClient
     }
 
     /**
+     * Get scorecard for a vehicle for a specified period of time.
+     *
+     * Valid parameters:
+     *
+     * - vehicle: The vehicle name (or ID, or VIN)
+     * - timeframe: Possible values are `week`, `month`, or `all`.
+     *
+     * @param array $params Parameters for vehicle/scorecard API.
+     * @return Result The result of the vehicle/scorecard API.
+     */
+    public function scorecard(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'scorecard', $params);
+    }
+
+    /**
      * Return Service History report information for a vehicle.
      *
      * Valid parameters:
@@ -547,6 +679,21 @@ class Vehicle extends ServiceClient
     public function serviceHistory(array $params = [])
     {
         return $this->client->call(self::SERVICE, 'servicehistory', $params);
+    }
+
+    /**
+     * Return current and overdue service reminders for a particular vehicle.
+     *
+     * Valid parameters:
+     *
+     * - vehicle: vehicle vin, serial_number, name or partial name (first to match)
+     *
+     * @param array $params Parameters for vehicle/servicereminder API.
+     * @return Result The result of the vehicle/servicereminder API.
+     */
+    public function serviceReminder(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'servicereminder', $params);
     }
 
     /**
@@ -610,7 +757,7 @@ class Vehicle extends ServiceClient
      * Valid parameters:
      *
      * - groups: a comma-separated list of vehicle groups
-     * - user: the vehicle to assign
+     * - vehicle: the vehicle to assign
      *
      * @param array $params Parameters for vehicle/setvehiclegroups API.
      * @return Result The result of the vehicle/setvehiclegroups API.
@@ -653,23 +800,23 @@ class Vehicle extends ServiceClient
     }
 
     /**
-     * Transfer a device from one vehicle to another.
+     * Transfer a device from one vehicle to another vehicle L=Liquefied Natural Gas, P=Propane.
      *
      * Valid parameters:
      *
-     * - vehicle: Vehicle id, vin, serial_number, name or partial name (first to match) of current vehicle
+     * - vehicle: Vehicle id, vin, serial_number, name or partial name (first to match) of current
      * - label: Description of the new vehicle
      * - vin: VIN of the new vehicle
+     * - odometer: In miles
      * - color: (optional)
      * - country: (optional)
      * - fuel_capacity: (optional) In gallons
-     * - fuel_type: (optional) U=Unleaded, D=Diesel, N=N/A
+     * - fuel_type: (optional) U=Unleaded, D=Diesel, N=N/A, E=Electric, C=Compressed Natural Gas,
      * - license_number: (optional)
      * - license_state: (optional)
      * - make: (optional)
      * - model: (optional)
      * - model_year: (optional)
-     * - odometer: (optional) In miles
      * - runtime_base: (optional) - the starting run_time total in hours
      * - engine_size: (optional) In liters
      * - idle_gph: (optional) Idle gallons per hour used
@@ -701,7 +848,7 @@ class Vehicle extends ServiceClient
     }
 
     /**
-     * Update a vehicle's properties.
+     * Update a vehicle's properties. L=Liquefied Natural Gas, P=Propane.
      *
      * Valid parameters:
      *
@@ -710,7 +857,7 @@ class Vehicle extends ServiceClient
      * - color: (optional)
      * - country: (optional)
      * - fuel_capacity: (optional) In gallons
-     * - fuel_type: (optional) U=Unleaded, D=Diesel, N=N/A
+     * - fuel_type: (optional) U=Unleaded, D=Diesel, N=N/A, E=Electric, C=Compressed Natural Gas,
      * - label: (optional) Label assigned to the vehicle
      * - license_number: (optional)
      * - license_state: (optional)
@@ -731,6 +878,26 @@ class Vehicle extends ServiceClient
     public function update(array $params = [])
     {
         return $this->client->call(self::SERVICE, 'update', $params);
+    }
+
+    /**
+     * Get trips for a specific vehicle for a given period of time.
+     *
+     * Valid parameters:
+     *
+     * - vehicle: vin, serial_number, name or partial name (first to match)
+     * - start: start of a date span (optional)
+     * - end: end date for a date span (optional)
+     * - include_points: Obtain all gps related to a returned trip
+     * - snap: Snap GPS points to a road
+     * - include_landmarks: Include landmarks
+     *
+     * @param array $params Parameters for vehicle/trips API.
+     * @return Result The result of the vehicle/trips API.
+     */
+    public function trips(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'trips', $params);
     }
 
     /**
@@ -761,7 +928,7 @@ class Vehicle extends ServiceClient
      * Valid parameters:
      *
      * - vehicle: Vehicle id of vehicle
-     * - output_id
+     * - output
      *
      * @param array $params Parameters for vehicle/triggerincabnotification API.
      * @return Result The result of the vehicle/triggerincabnotification API.
@@ -769,5 +936,22 @@ class Vehicle extends ServiceClient
     public function triggerInCabNotification(array $params = [])
     {
         return $this->client->call(self::SERVICE, 'triggerincabnotification', $params);
+    }
+
+    /**
+     * Returns the Fuel Card transactions for a given vehicle and date range.
+     *
+     * Valid parameters:
+     *
+     * - vehicle: Vehicle id, vin, serial_number, name or partial name (first to match) of current vehicle
+     * - start_date: Date - may include hours and minutes (required) start_date
+     * - end_date: Date - may include hours and minutes (required) end_date
+     *
+     * @param array $params Parameters for vehicle/fuelcardtransactions API.
+     * @return Result The result of the vehicle/fuelcardtransactions API.
+     */
+    public function fuelCardTransactions(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'fuelcardtransactions', $params);
     }
 }

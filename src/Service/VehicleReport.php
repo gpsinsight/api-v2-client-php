@@ -36,8 +36,10 @@ class VehicleReport extends ServiceClient
      * Valid parameters:
      *
      * - address
-     * - group
-     * - radius
+     * - group: (optional)
+     * - tree: (optional)
+     * - node: (optional)
+     * - radius: (optional)
      * - sort: (optional)
      * - vin: (optional)
      *
@@ -55,8 +57,10 @@ class VehicleReport extends ServiceClient
      * Valid parameters:
      *
      * - landmark
-     * - group
-     * - radius
+     * - group: (optional)
+     * - tree: (optional)
+     * - node: (optional)
+     * - radius: (optional)
      * - sort: (optional)
      *
      * @param array $params Parameters for vehiclereport/closesttolandmark API.
@@ -68,14 +72,16 @@ class VehicleReport extends ServiceClient
     }
 
     /**
-     * Retrieve a list of vehicles closest to a designated Lat/Lng.
+     * Retrieve a list of vehicles closest to a designated Lat/Lngroadside_allstate.
      *
      * Valid parameters:
      *
      * - latitude
      * - longitude
-     * - group
-     * - radius
+     * - group: (optional)
+     * - tree: (optional)
+     * - node: (optional)
+     * - radius: (optional)
      * - sort: (optional)
      *
      * @param array $params Parameters for vehiclereport/closesttolatlng API.
@@ -92,8 +98,10 @@ class VehicleReport extends ServiceClient
      * Valid parameters:
      *
      * - vin
-     * - group
-     * - radius
+     * - group: (optional)
+     * - tree: (optional)
+     * - node: (optional)
+     * - radius: (optional)
      * - sort: (optional)
      *
      * @param array $params Parameters for vehiclereport/closesttovin API.

@@ -13,15 +13,16 @@ class Webhook extends ServiceClient
     const SERVICE = 'webhook';
 
     /**
-     * Start a data service and register a callback script for us to post data to. landmark_enter, landmark_leave).
+     * Start a data service and register a callback script for us to post data to.
      *
      * Valid parameters:
      *
      * - url: URL of the endpoint to which we will write the data
      * - email: an email address to notify of changes to the status of the script
      * - name: a name to reference this webhook
-     * - type: one of five available webhook types (location, trip_complete, ignition_on, ignition_off,
+     * - type: one of fourteen available webhook types (location, speed, posted, heartbeat, trip_complete, ignition_on, ignition_off, landmark_enter, landmark_leave, landmark_change, idle, diagnostic, dtc, dvir)
      * - content_type: the format of the data that is sent to you - must be either 'form' or 'json'
+     * - batch: (optional) whether or not to batch webhook messages.
      *
      * @param array $params Parameters for webhook/create API.
      * @return Result The result of the webhook/create API.

@@ -78,14 +78,15 @@ class DriverGroup extends ServiceClient
     }
 
     /**
-     * Get attributes for a driver group // request int $trip_style (optional) 0=non-trip (default), 1=trip only,
-     * 2=stop only, 3=trip and stop // request date $start (optional) start of attribute search range (defaults to
-     * beginning of time) // request date $end (optional) end of attribute search range (defaults to end of time).
+     * Get attributes for a driver group.
      *
      * Valid parameters:
      *
      * - group: driver group name or ID
-     * - key: (optional) attribute key
+     * - key: (optional) Attribute key ID or name
+     * - trip_style: (optional) 0=non-trip (default), 1=trip only, 2=stop only, 3=trip and stop
+     * - start: (optional) Start of date range to search (not used if trip_bm=0)
+     * - end: (optional) End of date range to search (not used if trip_bm=0)
      *
      * @param array $params Parameters for drivergroup/getattributes API.
      * @return Result The result of the drivergroup/getattributes API.
@@ -109,6 +110,21 @@ class DriverGroup extends ServiceClient
     public function listMembers(array $params = [])
     {
         return $this->client->call(self::SERVICE, 'listmembers', $params);
+    }
+
+    /**
+     * Get the current input status for the driver group.
+     *
+     * Valid parameters:
+     *
+     * - driver_group: the driver group name / id
+     *
+     * @param array $params Parameters for drivergroup/inputs API.
+     * @return Result The result of the drivergroup/inputs API.
+     */
+    public function inputs(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'inputs', $params);
     }
 
     /**
@@ -170,5 +186,20 @@ class DriverGroup extends ServiceClient
     public function removeUser(array $params = [])
     {
         return $this->client->call(self::SERVICE, 'removeuser', $params);
+    }
+
+    /**
+     * Return current and overdue service reminders for a vehicle group.
+     *
+     * Valid parameters:
+     *
+     * - group: the driver group name
+     *
+     * @param array $params Parameters for drivergroup/servicereminder API.
+     * @return Result The result of the drivergroup/servicereminder API.
+     */
+    public function serviceReminder(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'servicereminder', $params);
     }
 }

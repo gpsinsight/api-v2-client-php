@@ -13,6 +13,21 @@ class Device extends ServiceClient
     const SERVICE = 'device';
 
     /**
+     * Returns the diagnostic VIN for the input serial#.
+     *
+     * Valid parameters:
+     *
+     * - serial_number: Specific device serial number
+     *
+     * @param array $params Parameters for device/diagnosticvin API.
+     * @return Result The result of the device/diagnosticvin API.
+     */
+    public function diagnosticVin(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'diagnosticvin', $params);
+    }
+
+    /**
      * List all devices for either this account or the account ID passed (if authorized to see it).
      *
      * Valid parameters:
@@ -31,7 +46,7 @@ class Device extends ServiceClient
      *
      * Valid parameters:
      *
-     * - account_id: (optional for customer context) ID of the account to be listed
+     * - account_id: (optional) ID of the account to be listed
      *
      * @param array $params Parameters for device/listavailableserials API.
      * @return Result The result of the device/listavailableserials API.
@@ -42,17 +57,44 @@ class Device extends ServiceClient
     }
 
     /**
-     * Returns the diagnostic VIN for the input serial#.
+     * .
      *
      * Valid parameters:
      *
-     * - serial_number: Specific device serial number
      *
-     * @param array $params Parameters for device/diagnosticvin API.
-     * @return Result The result of the device/diagnosticvin API.
+     * @param array $params Parameters for device/partnumbers API.
+     * @return Result The result of the device/partnumbers API.
      */
-    public function diagnosticVin(array $params = [])
+    public function partNumbers(array $params = [])
     {
-        return $this->client->call(self::SERVICE, 'diagnosticvin', $params);
+        return $this->client->call(self::SERVICE, 'partnumbers', $params);
+    }
+
+    /**
+     * Sources and Types are used somewhat interchangeably.
+     *
+     * Valid parameters:
+     *
+     *
+     * @param array $params Parameters for device/sources API.
+     * @return Result The result of the device/sources API.
+     */
+    public function sources(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'sources', $params);
+    }
+
+    /**
+     * .
+     *
+     * Valid parameters:
+     *
+     *
+     * @param array $params Parameters for device/status API.
+     * @return Result The result of the device/status API.
+     */
+    public function status(array $params = [])
+    {
+        return $this->client->call(self::SERVICE, 'status', $params);
     }
 }
